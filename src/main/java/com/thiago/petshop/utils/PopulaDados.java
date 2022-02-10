@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class PopulaDados {
@@ -25,6 +26,12 @@ public class PopulaDados {
 
     @Autowired
     PetRepository petRepository;
+
+    @Autowired
+    EstadoRepository estadoRepository;
+
+    @Autowired
+    CidadeRepository cidadeRepository;
 
     @PostConstruct
     public void cadastrar(){
@@ -63,6 +70,19 @@ public class PopulaDados {
         especieRepository.saveAll(Arrays.asList(esp1, esp2));
         racaRepository.saveAll(Arrays.asList(raca1, raca2, raca3));
         petRepository.saveAll(Arrays.asList(pet1, pet2, pet3));
+
+        Estado est1 = new Estado(null, "Minas Gerais");
+        Estado est2 = new Estado(null, "Sao Paulo");
+
+        Cidade cid1 = new Cidade(null, "Belo Horizonte", est1);
+        Cidade cid2 = new Cidade(null, "Capelinha", est1);
+        Cidade cid3 = new Cidade(null, "Sao Paulo", est2);
+
+        est1.getCidades().addAll(Arrays.asList(cid1, cid2));
+        est2.getCidades().addAll(List.of(cid3));
+
+        estadoRepository.saveAll(Arrays.asList(est1, est2));
+        cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
 
     }
 
