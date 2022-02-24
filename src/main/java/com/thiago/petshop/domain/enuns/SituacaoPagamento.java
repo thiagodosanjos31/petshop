@@ -18,7 +18,7 @@ public enum SituacaoPagamento {
             return null;
 
         for(SituacaoPagamento situacaoPagamento : SituacaoPagamento.values()){
-            if(code.equals(situacaoPagamento)){
+            if(code.equals(situacaoPagamento.getCode())){
                 return situacaoPagamento;
             }
         }
