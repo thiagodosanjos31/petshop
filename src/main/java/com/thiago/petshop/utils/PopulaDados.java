@@ -1,11 +1,14 @@
 package com.thiago.petshop.utils;
 
 import com.thiago.petshop.domain.*;
+import com.thiago.petshop.domain.enuns.SituacaoPagamento;
 import com.thiago.petshop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,8 +42,14 @@ public class PopulaDados {
     @Autowired
     EnderecoRepository enderecoRepository;
 
+    @Autowired
+    ServicoRepository servicoRepository;
+
+    @Autowired
+    PagamentoRepository pagamentoRepository;
+
     @PostConstruct
-    public void cadastrar(){
+    public void cadastrar() throws ParseException {
         Categoria cat1 = new Categoria(null, "Alimento");
         Categoria cat2 = new Categoria(null, "Remedio");
         Categoria cat3 = new Categoria(null, "Cosmetico");
@@ -102,6 +111,24 @@ public class PopulaDados {
 
         pessoaRepository.saveAll(Arrays.asList(clt1, fnc1));
         enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy HH:mm");
+
+        Servico srv1 = new Servico(null, sdf.parse("02/09/2021 09:00"), sdf.parse("02/09/2021 12:00"), "Tosa", clt1, fnc1);
+        Servico srv2 = new Servico(null, sdf.parse("03/09/2021 12:00"), sdf.parse("04/09/2021 12:00"), "Hotel", clt1, fnc1);
+
+        Pagamento pgt1 = new PagCartao(null, 60.0, SituacaoPagamento.QUITADO, srv2, 5);
+        Pagamento pgt2 = new PagDinheiro(null, 100.00, SituacaoPagamento.PENDENTE, srv1, sdf.parse("02/09/2021 00:00"), null);
+        clt1.getServicos().addAll(Arrays.asList(srv1, srv2));
+        fnc1.getServicos().addAll(Arrays.asList(srv1, srv2));
+        pagamentoRepository.saveAll(Arrays.asList(pgt1, pgt2));
+        srv2.setPagamento(pgt1);
+        srv1.setPagamento(pgt2);
+        servicoRepository.saveAll(Arrays.asList(srv1, srv2));
+
+
+
     }
 
 }
+
