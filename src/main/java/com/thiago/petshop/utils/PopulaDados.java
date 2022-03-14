@@ -112,7 +112,7 @@ public class PopulaDados {
         pessoaRepository.saveAll(Arrays.asList(clt1, fnc1));
         enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
         Servico srv1 = new Servico(null, sdf.parse("02/09/2021 09:00"), sdf.parse("02/09/2021 12:00"), "Tosa", clt1, fnc1, pet1);
         Servico srv2 = new Servico(null, sdf.parse("03/09/2021 12:00"), sdf.parse("04/09/2021 12:00"), "Hotel", clt1, fnc1, pet2);
@@ -130,8 +130,6 @@ public class PopulaDados {
         srv3.setPagamento(pgt3);
         srv3.getProdutos().addAll(List.of(p3));
         servicoRepository.saveAll(Arrays.asList(srv1, srv2, srv3));
-
-
 
     }
 
