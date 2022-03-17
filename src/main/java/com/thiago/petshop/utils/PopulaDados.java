@@ -6,7 +6,6 @@ import com.thiago.petshop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -48,7 +47,6 @@ public class PopulaDados {
     @Autowired
     PagamentoRepository pagamentoRepository;
 
-    @PostConstruct
     public void cadastrar() throws ParseException {
         Categoria cat1 = new Categoria(null, "Alimento");
         Categoria cat2 = new Categoria(null, "Remedio");
