@@ -1,7 +1,7 @@
 package com.thiago.petshop.resources;
 
-import com.thiago.petshop.domain.Categoria;
 import com.thiago.petshop.domain.Pessoa;
+import com.thiago.petshop.dto.PessoaDTO;
 import com.thiago.petshop.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +10,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/pessoas/")
+@RequestMapping("/pessoas")
 public class PessoaResource {
 
     @Autowired
@@ -46,8 +46,9 @@ public class PessoaResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> findAll(@PathVariable Integer id){
-        List<Pessoa> pessoa = pessoaService.findAll();
-        return ResponseEntity.ok().body(pessoa);
+    public ResponseEntity<List<PessoaDTO>> findAll(){
+        List<Pessoa> pessoas = pessoaService.findAll();
+        List<PessoaDTO> listDto = pessoas.stream().map(PessoaDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 }
